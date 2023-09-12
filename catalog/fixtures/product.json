@@ -1,0 +1,93 @@
+[
+  {
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+      "name": "Базовая",
+      "description": "-Лицензия на месяц",
+      "image": "products_images/basic_0QbbyyX.gif",
+      "category": 1,
+      "price": "30.00",
+      "created_at": "2023-09-11T21:24:41.327Z",
+      "last_modified": "2023-09-11T21:24:41.327Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+      "name": "Премиальная",
+      "description": "-Неограниченная лицензия",
+      "image": "products_images/premium.gif",
+      "category": 1,
+      "price": "100.00",
+      "created_at": "2023-09-11T21:25:24.222Z",
+      "last_modified": "2023-09-11T21:25:24.222Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+      "name": "Персональная",
+      "description": "-Неограниченная лицензия\r\n-Поддержка",
+      "image": "products_images/personal.gif",
+      "category": 1,
+      "price": "159.00",
+      "created_at": "2023-09-11T21:26:02.222Z",
+      "last_modified": "2023-09-11T21:26:02.222Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+      "name": "Элит",
+      "description": "-Неограниченная лицензия\r\n-Поддержка\r\n-Установка на сервер",
+      "image": "products_images/elite.gif",
+      "category": 1,
+      "price": "250.00",
+      "created_at": "2023-09-11T21:26:32.847Z",
+      "last_modified": "2023-09-11T21:26:32.847Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+      "name": "Элит плюс",
+      "description": "-Неограниченная лицензия\r\n-Поддержка\r\n-Установка на сервер\r\n-Получение обновлений",
+      "image": "products_images/super-elite.gif",
+      "category": 1,
+      "price": "300.00",
+      "created_at": "2023-09-11T21:27:04.673Z",
+      "last_modified": "2023-09-11T21:27:04.673Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+      "name": "Python Code",
+      "description": "-web developer (Django, Flask)\r\n-data analysis or data science\r\n-desktop app (Tkinter, PyQt5)\r\n-mobile developer (Kivy)\r\n-game developer (Pygame)",
+      "image": "products_images/python.gif",
+      "category": 2,
+      "price": "99.99",
+      "created_at": "2023-09-11T21:27:45.927Z",
+      "last_modified": "2023-09-11T21:27:45.927Z"
+    }
+  },
+  {
+    "model": "catalog.product",
+    "pk": 7,
+    "fields": {
+      "name": "С#",
+      "description": "-ASP.Net Core\r\n-GraphQL, gRPC и SignalR Core\r\n-ReactJS\r\n-Docker\r\n-CI/CD и Kubernetes\r\n-RabbitMQ",
+      "image": "products_images/C.gif",
+      "category": 2,
+      "price": "99.99",
+      "created_at": "2023-09-11T21:28:18.690Z",
+      "last_modified": "2023-09-11T21:28:18.690Z"
+    }
+  }
+]

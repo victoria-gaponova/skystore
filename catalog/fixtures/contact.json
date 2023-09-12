@@ -1,0 +1,11 @@
+[
+  {
+    "model": "catalog.contact",
+    "pk": 1,
+    "fields": {
+      "country": "Belarus",
+      "inn": "256475666",
+      "address": "Sviridova street, 62"
+    }
+  }
+]
