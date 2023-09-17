@@ -1,9 +1,11 @@
 import json
 
 from catalog.models import Product, Category, Contact
-from config.settings import BASE_DIR
+
 
 from django.core.management import BaseCommand
+from django.conf import settings
+
 
 
 class Command(BaseCommand):
@@ -12,7 +14,7 @@ class Command(BaseCommand):
         Product.objects.all().delete()
         Category.objects.all().delete()
         Contact.objects.all().delete()
-        with open(BASE_DIR / 'catalog/fixtures/category.json') as f:
+        with open(settings.BASE_DIR / 'catalog/fixtures/category.json') as f:
             category_data = json.load(f)
             for category_item in category_data:
                 Category.objects.create(
@@ -20,7 +22,7 @@ class Command(BaseCommand):
                     name=category_item['fields']['name'],
                     description=category_item['fields']['description']
                 )
-        with open(BASE_DIR / 'catalog/fixtures/product.json') as f:
+        with open(settings.BASE_DIR / 'catalog/fixtures/product.json') as f:
             product_data = json.load(f)
             for product_item in product_data:
                 category_pk = product_item['fields']['category']
@@ -35,7 +37,7 @@ class Command(BaseCommand):
                     created_at=product_item['fields']['created_at'],
                     last_modified=product_item['fields']['last_modified']
                 )
-        with open(BASE_DIR / 'catalog/fixtures/contact.json') as f:
+        with open(settings.BASE_DIR / 'catalog/fixtures/contact.json') as f:
             contact_data = json.load(f)
             for contact_item in contact_data:
                 Contact.objects.create(
