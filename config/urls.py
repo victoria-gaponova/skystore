@@ -19,10 +19,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 
+import blog
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',  include('catalog.urls')),
-
+    path('blog/', include('blog.urls'))
 ]
 
 if settings.DEBUG:
