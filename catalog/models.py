@@ -16,7 +16,7 @@ class Product(models.Model):
 
     name = models.CharField(max_length=200)
     description = models.TextField()
-    image = models.ImageField(upload_to='products_images')
+    image = models.ImageField(upload_to='products_images', null=True, blank=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=8, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -36,3 +36,13 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"{self.country} {self.address}"
+
+
+class Version(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='versions', blank=True, null=True)
+    number = models.PositiveIntegerField()
+    name = models.CharField(max_length=200)
+    is_active = models.BooleanField(default=True)
+
+    def __str__(self):
+        return self.name

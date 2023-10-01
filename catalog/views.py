@@ -1,7 +1,10 @@
+from django.forms import formset_factory
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.urls import reverse_lazy
+from django.views.generic import ListView, DetailView, CreateView
 
 from catalog.models import Product, Contact
+from catalog.forms import ProductForm, VersionForm
 
 
 # Create your views here.
@@ -16,7 +19,27 @@ from catalog.models import Product, Contact
 class ProductListView(ListView):
     model = Product
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        products = Product.objects.all()
+        for product in products:
+            product.active_version = product.versions.filter(is_active=True).first()
+        context['object_list'] = products
+        return context
 
+
+class ProductCreateView(CreateView):
+    model = Product
+    form_class = ProductForm
+    success_url = reverse_lazy('catalog:product_list')
+
+    def form_valid(self, form):
+        new_product = form.save()
+        new_product.save()
+        selected_version = form.cleaned_data['version']
+        selected_version.product = new_product
+        selected_version.save()
+        return super().form_valid(form)
 
 
 def contacts(request):
@@ -44,4 +67,3 @@ def contacts(request):
 
 class ProductDetailView(DetailView):
     model = Product
-    template_name = 'catalog/product_detail.html'
