@@ -1,48 +1,66 @@
 import json
+from config.settings import BASE_DIR
 
-from catalog.models import Product, Category, Contact
-
-
-from django.core.management import BaseCommand
-from django.conf import settings
-
+from django.core.management.base import BaseCommand
+from catalog.models import Product, Contact, Category, Version
 
 
 class Command(BaseCommand):
+    help = 'Заполнение базы данных данными из нескольких файлов'
 
-    def handle(self, *args, **options):
+    def handle(self, *args, **kwargs):
+
         Product.objects.all().delete()
-        Category.objects.all().delete()
         Contact.objects.all().delete()
-        with open(settings.BASE_DIR / 'catalog/fixtures/category.json') as f:
-            category_data = json.load(f)
-            for category_item in category_data:
-                Category.objects.create(
-                    pk=category_item['pk'],
-                    name=category_item['fields']['name'],
-                    description=category_item['fields']['description']
-                )
-        with open(settings.BASE_DIR / 'catalog/fixtures/product.json') as f:
-            product_data = json.load(f)
-            for product_item in product_data:
-                category_pk = product_item['fields']['category']
-                category = Category.objects.get(pk=category_pk)
-                Product.objects.create(
-                    pk=product_item['pk'],
-                    name=product_item['fields']['name'],
-                    description=product_item['fields']['description'],
-                    image=product_item['fields']['image'],
-                    category=category,
-                    price=product_item['fields']['price'],
-                    created_at=product_item['fields']['created_at'],
-                    last_modified=product_item['fields']['last_modified']
-                )
-        with open(settings.BASE_DIR / 'catalog/fixtures/contact.json') as f:
-            contact_data = json.load(f)
-            for contact_item in contact_data:
-                Contact.objects.create(
-                    pk=contact_item['pk'],
-                    country=contact_item['fields']['country'],
-                    inn=contact_item['fields']['inn'],
-                    address=contact_item['fields']['address']
-                )
+        Category.objects.all().delete()
+        Version.objects.all().delete()
+
+        try:
+            with open(BASE_DIR / 'catalog/fixtures/categories.json', 'r', encoding='cp1251') as file:
+                category_data = json.load(file)
+                for item in category_data:
+                    Category.objects.create(
+                        pk=item['pk'],
+                        name=item['fields']['name'],
+                        description=item['fields']['description']
+                    )
+            with open(BASE_DIR / 'catalog/fixtures/products.json', 'r', encoding='cp1251') as file:
+                product_data = json.load(file)
+                for item in product_data:
+                    category_pk = item['fields']['category']
+                    category = Category.objects.get(pk=category_pk)
+                    Product.objects.create(
+                        pk=item['pk'],
+                        name=item['fields']['name'],
+                        description=item['fields']['description'],
+                        image=item['fields']['image'],
+                        category=category,
+                        price=item['fields']['price'],
+                        created_at=item['fields']['created_at'],
+                        last_modified=item['fields']['last_modified']
+                    )
+
+            with open(BASE_DIR / 'catalog/fixtures/contacts.json', 'r', encoding='cp1251') as file:
+                contact_data = json.load(file)
+                for item in contact_data:
+                    Contact.objects.create(
+                        pk=item['pk'],
+                        country=item['fields']['country'],
+                        inn=item['fields']['inn'],
+                        address=item['fields']['address']
+                    )
+            with open(BASE_DIR / 'catalog/fixtures/version.json', 'r', encoding='cp1251') as file:
+                version_data = json.load(file)
+                for item in version_data:
+                    version = Version.objects.create(
+                        number=item['fields']['number'],
+                        name=item['fields']['name'],
+                        is_active=item['fields']['is_active']
+                    )
+                    version.products.set(item['fields']['products'])
+
+        except Exception as e:
+            self.stdout.write(self.style.ERROR(f'Ошибка при импорте данных: {e}'))
+
+        else:
+            self.stdout.write(self.style.SUCCESS('Данные успешно добавлены в базу данных'))

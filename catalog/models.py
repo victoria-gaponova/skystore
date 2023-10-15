@@ -1,4 +1,7 @@
 from django.db import models
+from django.db.models import Q
+
+from users.models import User
 
 
 # Create your models here.
@@ -21,6 +24,7 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     last_modified = models.DateTimeField(auto_now_add=True)
+    owner = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return f"Product(pk={self.pk}, name={self.name!r})"
@@ -39,10 +43,14 @@ class Contact(models.Model):
 
 
 class Version(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='versions', blank=True, null=True)
-    number = models.PositiveIntegerField()
+    products = models.ManyToManyField(Product, related_name='versions', blank=True)
+    number = models.CharField(max_length=200)
     name = models.CharField(max_length=200)
     is_active = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'версия'
+        verbose_name_plural = 'версии'
 
     def __str__(self):
         return self.name

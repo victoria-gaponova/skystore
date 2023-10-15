@@ -24,7 +24,9 @@ import blog
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',  include('catalog.urls')),
-    path('blog/', include('blog.urls'))
+    path('blog/', include('blog.urls')),
+    path('user/', include('users.urls', namespace='users'))
+
 ]
 
 if settings.DEBUG:
