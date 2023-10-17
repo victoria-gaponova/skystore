@@ -24,10 +24,10 @@ class ProductListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         products = Product.objects.all()
-        # categories = get_categories()
+        categories = get_categories()
         for product in products:
             product.active_version = product.versions.filter(is_active=True).first()
-        # context['categories'] = categories
+        context['categories'] = categories
         return context
 
 
