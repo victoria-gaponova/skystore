@@ -1,11 +1,12 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import formset_factory
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 
 from catalog.models import Product, Contact
 from catalog.forms import ProductForm, VersionForm
+from catalog.services import get_categories
 
 
 # Create your views here.
@@ -23,9 +24,10 @@ class ProductListView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         products = Product.objects.all()
+        # categories = get_categories()
         for product in products:
             product.active_version = product.versions.filter(is_active=True).first()
-        context['object_list'] = products
+        # context['categories'] = categories
         return context
 
 
@@ -70,3 +72,15 @@ def contacts(request):
 
 class ProductDetailView(DetailView):
     model = Product
+    context_object_name = 'product'
+
+    def get_object(self, queryset=None):
+        name = self.kwargs.get('name')
+        return get_object_or_404(Product, name=name)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.object
+        product.active_version = product.versions.filter(is_active=True).first()
+        context['product'] = product
+        return context
